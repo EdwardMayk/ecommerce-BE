@@ -1,0 +1,117 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Category {
+  createdAt: DateTime!
+  id: Int!
+  name: String!
+  products: Product!
+  updatedAt: DateTime!
+}
+
+input CreateUserInput {
+  """UUID of user creator"""
+  createdBy: String!
+
+  """Email of user"""
+  email: String!
+
+  """Name of user"""
+  firstname: String!
+
+  """LastName of user"""
+  lastname: String!
+
+  """Password of user"""
+  password: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+input LoginAuthDto {
+  email: String!
+  password: String!
+}
+
+type Mutation {
+  addMessage: String!
+  createUser(createUserInput: CreateUserInput!): User!
+  login(args: LoginAuthDto!): SigninResponse!
+  removeUserActivity(id: Int!): UserActivity!
+}
+
+type Order {
+  createdAt: DateTime!
+  id: Int!
+  product: Product!
+  quantity: Int!
+  totalPrice: Float!
+  updatedAt: DateTime!
+  user: User!
+}
+
+type Product {
+  category: Category!
+  createdAt: DateTime!
+  description: String
+  id: Int!
+  name: String!
+  orders: Order!
+  price: Float!
+  updatedAt: DateTime!
+}
+
+type Query {
+  hello: String!
+  user(uuid: String!): User!
+  userActivity(uuid: Int!): UserActivity!
+  users: [User!]!
+}
+
+type Role {
+  createdAt: DateTime!
+  name: String!
+  status: Boolean!
+  updatedAt: DateTime!
+  users: Role!
+  uuid: String!
+  value: String!
+}
+
+type SigninResponse {
+  status: String!
+}
+
+type Subscription {
+  messageAdded: String!
+}
+
+type User {
+  createdAt: DateTime!
+  email: String!
+  firstname: String
+  lastLoginAt: DateTime!
+  lastname: String
+  orders: Order!
+  profilePicture: String
+  refreshToken: String!
+  role: Role!
+  sessionUuid: String!
+  updatedAt: DateTime!
+  uuid: String!
+}
+
+type UserActivity {
+  createdAt: DateTime!
+  endTime: DateTime!
+  platform: String!
+  startTime: DateTime!
+  type: String!
+  updatedAt: DateTime!
+  user: User!
+  uuid: String!
+}
