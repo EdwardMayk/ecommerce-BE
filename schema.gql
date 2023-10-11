@@ -40,6 +40,7 @@ input LoginAuthDto {
 type Mutation {
   addMessage: String!
   createUser(createUserInput: CreateUserInput!): User!
+  createUserAdmin(createUserInput: CreateUserInput!): User!
   login(args: LoginAuthDto!): SigninResponse!
   removeUserActivity(id: Int!): UserActivity!
 }
@@ -67,6 +68,8 @@ type Product {
 
 type Query {
   hello: String!
+  role(value: String!): Role!
+  roles: [Role!]!
   user(uuid: String!): User!
   userActivity(uuid: Int!): UserActivity!
   users: [User!]!
@@ -83,6 +86,7 @@ type Role {
 }
 
 type SigninResponse {
+  role: String!
   status: String!
 }
 

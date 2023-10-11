@@ -15,5 +15,9 @@ export default registerAs('config', () => {
       refreshSecret: process.env.REFRESH_TOKEN_SECRET,
       secret: process.env.ACCESS_TOKEN_SECRET,
     },
+    frontend: {
+      url: process.env.FRONTEND_URL,
+      webapp: process.env.WEBAPP_URL,
+    },
   };
 });

@@ -12,6 +12,11 @@ export class UsersResolver {
     return this.usersService.createUser(createUserInput);
   }
 
+  @Mutation(() => User)
+  createUserAdmin(@Args('createUserInput') createUserInput: CreateUserInput) {
+    return this.usersService.createUserAdmin(createUserInput);
+  }
+
   @Query(() => [User], { name: 'users' })
   findAll() {
     return this.usersService.findAll();

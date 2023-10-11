@@ -5,23 +5,47 @@ import { v4 as uuidv4 } from 'uuid';
 import { User } from '../entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
+import { RolesService } from 'src/roles/services/roles.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepo: Repository<User>,
+    private readonly roleService: RolesService,
   ) {}
+
+  async createUserAdmin(args: CreateUserInput) {
+    try {
+      const password = await bcrypt.hash(args.password, 10);
+
+      const role = await this.roleService.findOne('admin');
+
+      const user = this.usersRepo.create({
+        ...args,
+        uuid: uuidv4(),
+        password,
+        role: role,
+      });
+
+      return this.usersRepo.save(user);
+    } catch (error) {
+      throw error;
+    }
+  }
 
   async createUser(args: CreateUserInput) {
     try {
       const password = await bcrypt.hash(args.password, 10);
+
+      const role = await this.roleService.findOne('user');
 
       console.log('password', password);
       const user = this.usersRepo.create({
         ...args,
         uuid: uuidv4(),
         password,
+        role: role,
       });
 
       console.log('users', user);
@@ -56,6 +80,7 @@ export class UsersService {
       where: {
         email,
       },
+      relations: ['role'],
     });
   }
 }
