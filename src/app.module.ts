@@ -19,6 +19,7 @@ import config from './config';
 import * as Joi from 'joi';
 import { AuthModule } from './auth/auth.module';
 import { UserActivityModule } from './user-activity/user.activity.module';
+import { FilesModule } from './files/files.module';
 
 @Module({
   imports: [
@@ -55,6 +56,7 @@ import { UserActivityModule } from './user-activity/user.activity.module';
     DatabaseModule,
     AuthModule,
     UserActivityModule,
+    FilesModule,
   ],
   providers: [AppService, AppResolver],
 })

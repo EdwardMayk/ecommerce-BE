@@ -20,6 +20,10 @@ export class Product {
   @Field(() => Int)
   id: number;
 
+  @Column({ type: 'uuid', nullable: false })
+  @Field(() => String)
+  uuid: string;
+
   @Column({ type: 'varchar', length: 255 })
   @Field(() => String)
   name: string;
@@ -31,6 +35,21 @@ export class Product {
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   @Field(() => Float)
   price: number;
+
+  //stock
+  @Column({ type: 'int', nullable: false })
+  @Field(() => Int)
+  stock: number;
+
+  //image
+  @Column({ type: 'varchar', length: 255 })
+  @Field(() => String)
+  image: string;
+
+  //brand
+  @Column({ type: 'varchar', length: 255 })
+  @Field(() => String)
+  brand: string;
 
   @Field(() => Date)
   @CreateDateColumn({

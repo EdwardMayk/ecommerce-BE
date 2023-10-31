@@ -19,5 +19,11 @@ export default registerAs('config', () => {
       url: process.env.FRONTEND_URL,
       webapp: process.env.WEBAPP_URL,
     },
+    AWSS3: {
+      accessKeyId: process.env.AWSS3_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWSS3_SECRET_ACCESS_KEY,
+      region: process.env.AWSS3_REGION,
+      bucket: process.env.AWSS3_BUCKET,
+    },
   };
 });
