@@ -14,7 +14,7 @@ import {
 } from 'typeorm';
 
 @Entity({ name: 'products' })
-@ObjectType() // Decorador de GraphQL para generar automáticamente el esquema
+@ObjectType()
 export class Product {
   @PrimaryGeneratedColumn()
   @Field(() => Int)
@@ -42,7 +42,7 @@ export class Product {
   stock: number;
 
   //image
-  @Column({ type: 'varchar', length: 255 })
+  @Column({ type: 'text' })
   @Field(() => String)
   image: string;
 

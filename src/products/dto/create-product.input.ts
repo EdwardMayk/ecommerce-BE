@@ -1,5 +1,5 @@
 import { InputType, Field } from '@nestjs/graphql';
-import { IsString } from 'class-validator';
+import { IsString, IsUrl } from 'class-validator';
 
 @InputType()
 export class CreateProductInput {
@@ -18,7 +18,7 @@ export class CreateProductInput {
   stock: number;
 
   @Field(() => String, { description: 'Image of product' })
-  @IsString()
+  @IsUrl()
   image: string;
 
   @Field(() => String, { description: 'Brand of product' })
