@@ -22,8 +22,7 @@ export class CreateUserInput {
   @Field(() => String, { description: 'Password of user' })
   password: string;
 
-  @IsNotEmpty()
   @IsUUID()
-  @Field(() => String, { description: 'UUID of user creator' })
-  createdBy: string;
+  @Field(() => String, { description: 'UUID of user creator', nullable: true })
+  createdBy?: string;
 }

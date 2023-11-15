@@ -67,6 +67,18 @@ export class UsersService {
     }
   }
 
+  async deleteUser(uuid: string) {
+    try {
+      const user = await this.usersRepo.findOne({ where: { uuid } });
+
+      if (!user) throw new NotFoundException('User not found');
+
+      return this.usersRepo.delete({ uuid });
+    } catch (error) {
+      throw error;
+    }
+  }
+
   findAll() {
     return this.usersRepo.find();
   }
