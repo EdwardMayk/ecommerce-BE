@@ -86,8 +86,6 @@ export class UsersService {
     }
   }
 
-<<<<<<< Updated upstream
-=======
   async deleteUser(uuid: string) {
     try {
       const user = await this.usersRepo.findOne({ where: { uuid } });
@@ -181,7 +179,6 @@ export class UsersService {
     }
   }
 
->>>>>>> Stashed changes
   findAll() {
     return this.usersRepo.find();
   }
