@@ -20,6 +20,7 @@ import * as Joi from 'joi';
 import { AuthModule } from './auth/auth.module';
 import { UserActivityModule } from './user-activity/user.activity.module';
 import { FilesModule } from './files/files.module';
+import { SES } from 'aws-sdk';
 
 @Module({
   imports: [
@@ -58,6 +59,17 @@ import { FilesModule } from './files/files.module';
     UserActivityModule,
     FilesModule,
   ],
-  providers: [AppService, AppResolver],
+  providers: [
+    AppService,
+    AppResolver,
+    {
+      provide: SES,
+      useValue: new SES({
+        accessKeyId: process.env.AWSS3_ACCESS_KEY_ID,
+        secretAccessKey: process.env.AWSS3_SECRET_ACCESS_KEY,
+        region: process.env.AWSS3_REGION,
+      }),
+    },
+  ],
 })
 export class AppModule {}

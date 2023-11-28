@@ -62,9 +62,11 @@ type Mutation {
   createProduct(args: CreateProductInput!): Product!
   createUser(createUserInput: CreateUserInput!): User!
   createUserAdmin(createUserInput: CreateUserInput!): User!
+  generateResetPasswordCode(email: String!): String!
   login(args: LoginAuthDto!): SigninResponse!
   removeProduct(id: Int!): Product!
   removeUserActivity(id: Int!): UserActivity!
+  resetPassword(email: String!, newPassword: String!, resetCode: String!): Boolean!
   updateProduct(updateProductInput: UpdateProductInput!): Product!
 }
 
@@ -79,10 +81,10 @@ type Order {
 }
 
 type Product {
-  brand: String!
+  brand: String
   category: Category!
   createdAt: DateTime!
-  description: String
+  description: String!
   id: Int!
   image: String!
   name: String!
@@ -153,6 +155,8 @@ type User {
   orders: Order!
   profilePicture: String
   refreshToken: String!
+  resetPasswordCode: String!
+  resetPasswordExpires: DateTime!
   role: Role!
   sessionUuid: String!
   updatedAt: DateTime!

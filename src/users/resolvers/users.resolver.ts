@@ -26,4 +26,31 @@ export class UsersResolver {
   findOne(@Args('uuid', { type: () => String }) uuid: string) {
     return this.usersService.findOne(uuid);
   }
+
+  @Mutation(() => String)
+  async generateResetPasswordCode(
+    @Args('email') email: string,
+  ): Promise<string> {
+    try {
+      const resetCode =
+        await this.usersService.generateResetPasswordCode(email);
+      return resetCode;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @Mutation(() => Boolean)
+  async resetPassword(
+    @Args('email') email: string,
+    @Args('resetCode') resetCode: string,
+    @Args('newPassword') newPassword: string,
+  ): Promise<boolean> {
+    try {
+      await this.usersService.resetPassword(email, resetCode, newPassword);
+      return true;
+    } catch (error) {
+      throw error;
+    }
+  }
 }

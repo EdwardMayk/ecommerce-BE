@@ -28,9 +28,9 @@ export class Product {
   @Field(() => String)
   name: string;
 
-  @Column({ type: 'text', nullable: true })
-  @Field(() => String, { nullable: true })
-  description?: string;
+  @Column({ type: 'text' })
+  @Field(() => String)
+  description: string;
 
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   @Field(() => Float)
@@ -47,9 +47,9 @@ export class Product {
   image: string;
 
   //brand
-  @Column({ type: 'varchar', length: 255 })
-  @Field(() => String)
-  brand: string;
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  @Field(() => String, { nullable: true })
+  brand?: string;
 
   @Field(() => Date)
   @CreateDateColumn({

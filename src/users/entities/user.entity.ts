@@ -56,6 +56,25 @@ export class User {
   @Field(() => String)
   refreshToken?: string;
 
+  //resetPasswordCode
+  @Column({
+    name: 'reset_password_code',
+    type: 'varchar',
+    length: 255,
+    nullable: true,
+  })
+  @Field(() => String)
+  resetPasswordCode?: string;
+
+  //resetPasswordExpires
+  @Column({
+    name: 'reset_password_expires',
+    type: 'timestamp',
+    nullable: true,
+  })
+  @Field(() => Date)
+  resetPasswordExpires?: Date;
+
   @Field(() => Date)
   @CreateDateColumn({
     name: 'created_at',
