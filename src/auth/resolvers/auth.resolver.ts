@@ -30,11 +30,13 @@ export class AuthResolver {
       sameSite: 'lax',
       path: '/',
       domain: this.configService.frontend.url,
+      secure: false,
       expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30), // 30 days
     });
 
     req.res.cookie('refresh_token', refresh_token, {
       httpOnly: true,
+      secure: false,
       sameSite: 'lax',
       path: '/',
       domain: this.configService.frontend.url,
@@ -44,9 +46,14 @@ export class AuthResolver {
     req.res.cookie('is_logged_in', 'true', {
       httpOnly: false,
       sameSite: 'lax',
+      secure: false,
       domain: this.configService.frontend.url,
       expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30), // 30 days
     });
+    console.log(
+      'Cookies antes de enviar la respuesta:',
+      req.res.getHeader('Set-Cookie'),
+    );
 
     return {
       status: 'ok',

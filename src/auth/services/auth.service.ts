@@ -13,6 +13,7 @@ import { UserActivityService } from 'src/user-activity/services/user-activity.se
 import { PayloadToken } from '../models/token';
 import { ConfigType } from '@nestjs/config';
 import config from 'src/config';
+import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -57,20 +58,30 @@ export class AuthService {
     const payload: PayloadToken = {
       role: user.role?.value,
       uuid: user.uuid,
+      name: user.firstname,
+      lastname: user.lastname,
+      email: user.email,
       session_uuid: response.uuid,
     };
 
     await this.userService.updateLastLogin(user.uuid);
 
-    return this.generateTokens(payload);
+    return this.generateTokens(payload, user);
   }
 
-  generateTokens(payload: PayloadToken) {
+  generateTokens(payload: PayloadToken, user: User) {
     return {
       access_token: this.generateAccessToken(payload),
       refresh_token: this.generateRefreshToken(payload),
       role: payload.role,
       uuid: payload.uuid,
+      user: {
+        email: user.email,
+        name: user.firstname,
+        lastname: user.lastname,
+        role: user.role?.value,
+        uuid: user.uuid,
+      },
     };
   }
 

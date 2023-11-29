@@ -24,6 +24,6 @@ export class CreateUserInput {
 
   @IsNotEmpty()
   @IsUUID()
-  @Field(() => String, { description: 'UUID of user creator' })
-  createdBy: string;
+  @Field(() => String, { description: 'UUID of user creator', nullable: true })
+  createdBy?: string;
 }

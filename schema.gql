@@ -32,7 +32,7 @@ input CreateProductInput {
 
 input CreateUserInput {
   """UUID of user creator"""
-  createdBy: String!
+  createdBy: String
 
   """Email of user"""
   email: String!
