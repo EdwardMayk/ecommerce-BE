@@ -21,6 +21,7 @@ import { AuthModule } from './auth/auth.module';
 import { UserActivityModule } from './user-activity/user.activity.module';
 import { FilesModule } from './files/files.module';
 import { SES } from 'aws-sdk';
+import { MercadoPagoModule } from './mercadopago/mercadopago.module';
 
 @Module({
   imports: [
@@ -58,6 +59,7 @@ import { SES } from 'aws-sdk';
     AuthModule,
     UserActivityModule,
     FilesModule,
+    MercadoPagoModule,
   ],
   providers: [
     AppService,
