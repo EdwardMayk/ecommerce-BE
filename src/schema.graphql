@@ -1,0 +1,161 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Role {
+  uuid: String!
+  value: String!
+  name: String!
+  status: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  users: Role!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Category {
+  id: Int!
+  uuid: String!
+  name: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  products: [Product!]!
+}
+
+type Product {
+  id: Int!
+  uuid: String!
+  name: String!
+  description: String!
+  price: Float!
+  stock: Int!
+  image: String!
+  brand: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  categories: [Category!]
+  orders: Order!
+}
+
+type Order {
+  id: Int!
+  user: User!
+  product: Product!
+  quantity: Int!
+  totalPrice: Float!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type User {
+  uuid: String!
+  firstname: String
+  lastname: String
+  profilePicture: String
+  email: String!
+  refreshToken: String!
+  resetPasswordCode: String!
+  resetPasswordExpires: DateTime!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  lastLoginAt: DateTime!
+  sessionUuid: String!
+  role: Role!
+  orders: Order!
+}
+
+type UserActivity {
+  user: User!
+  uuid: String!
+  startTime: DateTime!
+  endTime: DateTime!
+  type: String!
+  platform: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type SigninResponse {
+  status: String!
+  role: String!
+  name: String!
+  lastname: String!
+  email: String!
+  profilePicture: String!
+  lastLogin: String!
+}
+
+type Query {
+  hello: String!
+  users: [User!]!
+  user(uuid: String!): User!
+  roles: [Role!]!
+  role(value: String!): Role!
+  products: [Product!]!
+  userActivity(uuid: Int!): UserActivity!
+}
+
+type Mutation {
+  addMessage: String!
+  createUser(createUserInput: CreateUserInput!): User!
+  createUserAdmin(createUserInput: CreateUserInput!): User!
+  removeUser(uuid: String!): Boolean!
+  generateResetPasswordCode(email: String!): String!
+  resetPassword(email: String!, resetCode: String!, newPassword: String!): Boolean!
+  createProduct(args: CreateProductInput!): Product!
+  login(args: LoginAuthDto!): SigninResponse!
+  removeUserActivity(id: Int!): UserActivity!
+}
+
+input CreateUserInput {
+  """Name of user"""
+  firstname: String!
+
+  """LastName of user"""
+  lastname: String!
+
+  """Email of user"""
+  email: String!
+
+  """Password of user"""
+  password: String!
+
+  """UUID of user creator"""
+  createdBy: String
+}
+
+input CreateProductInput {
+  """Name of product"""
+  name: String!
+
+  """Description of product"""
+  description: String!
+
+  """Price of product"""
+  price: Float!
+
+  """Stock of product"""
+  stock: Float!
+
+  """Image of product"""
+  image: String!
+
+  """Brand of product"""
+  brand: String!
+
+  """Category of product"""
+  category: String
+}
+
+input LoginAuthDto {
+  email: String!
+  password: String!
+}
+
+type Subscription {
+  messageAdded: String!
+}

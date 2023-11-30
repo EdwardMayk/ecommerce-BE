@@ -3,7 +3,7 @@ import { Resolver, Args, Mutation, Context } from '@nestjs/graphql';
 import { LoginAuthDto } from '../dto/login-auth.dto';
 import { AuthService } from '../services/auth.service';
 import { SigninResponse } from '../models/auth.model';
-import { Request } from 'express';
+import { Response } from 'express';
 import { Inject } from '@nestjs/common';
 import config from 'src/config';
 import { ConfigType } from '@nestjs/config';
@@ -17,16 +17,16 @@ export class AuthResolver {
   ) {}
 
   @Mutation(() => SigninResponse)
-  async login(@Args('args') args: LoginAuthDto, @Context('req') req: Request) {
-    const { access_token, refresh_token, role } =
+  async login(@Args('args') args: LoginAuthDto, @Context('res') res: Response) {
+    const { access_token, refresh_token, role, user } =
       await this.authService.login(args);
 
     console.log('access_token', access_token);
     console.log('refresh_token', refresh_token);
     console.log('roles', role);
 
-    req.res.cookie('access_token', access_token, {
-      httpOnly: true,
+    res.cookie('access_token', access_token, {
+      httpOnly: false,
       sameSite: 'lax',
       path: '/',
       domain: this.configService.frontend.url,
@@ -34,8 +34,8 @@ export class AuthResolver {
       expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30), // 30 days
     });
 
-    req.res.cookie('refresh_token', refresh_token, {
-      httpOnly: true,
+    res.cookie('refresh_token', refresh_token, {
+      httpOnly: false,
       secure: false,
       sameSite: 'lax',
       path: '/',
@@ -43,21 +43,24 @@ export class AuthResolver {
       expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30), // 30 days
     });
 
-    req.res.cookie('is_logged_in', 'true', {
+    res.cookie('is_logged_in', 'true', {
       httpOnly: false,
       sameSite: 'lax',
       secure: false,
       domain: this.configService.frontend.url,
       expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30), // 30 days
     });
-    console.log(
-      'Cookies antes de enviar la respuesta:',
-      req.res.getHeader('Set-Cookie'),
-    );
+
+    console.log('user', user);
 
     return {
       status: 'ok',
       role,
+      name: user.name,
+      lastname: user.lastname,
+      email: user.email,
+      lastLogin: user.lastLogin,
+      uuid: user.uuid,
     };
   }
 }

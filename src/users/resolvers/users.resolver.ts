@@ -9,7 +9,9 @@ export class UsersResolver {
 
   @Mutation(() => User)
   createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
-    return this.usersService.createUser(createUserInput);
+    const user = this.usersService.createUser(createUserInput);
+    //status ok
+    return user;
   }
 
   @Mutation(() => User)
@@ -25,6 +27,17 @@ export class UsersResolver {
   @Query(() => User, { name: 'user' })
   findOne(@Args('uuid', { type: () => String }) uuid: string) {
     return this.usersService.findOne(uuid);
+  }
+
+  //delete
+  @Mutation(() => Boolean)
+  async removeUser(@Args('uuid') uuid: string): Promise<boolean> {
+    try {
+      await this.usersService.deleteUser(uuid);
+      return true;
+    } catch (error) {
+      throw error;
+    }
   }
 
   @Mutation(() => String)

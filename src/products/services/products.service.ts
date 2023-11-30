@@ -1,43 +1,38 @@
 import { Injectable } from '@nestjs/common';
 import { CreateProductInput } from '../dto/create-product.input';
-import { UpdateProductInput } from '../dto/update-product.input';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from '../entities/product.entity';
 import { Repository } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
+import { CategoryService } from 'src/category/services/category.service';
 
 @Injectable()
 export class ProductsService {
   constructor(
     @InjectRepository(Product)
-    private readonly productRepository: Repository<Product>,
+    private productRepo: Repository<Product>,
+    private readonly categoryService: CategoryService,
   ) {}
 
-  create(args: CreateProductInput) {
+  findAll() {
+    return this.productRepo.find();
+  }
+
+  async create(args: CreateProductInput) {
     try {
-      const product = this.productRepository.create({
+      const product = await this.productRepo.create({
         ...args,
         uuid: uuidv4(),
       });
-      return this.productRepository.save(product);
+      const newProduct = await this.productRepo.save(product);
+
+      return newProduct;
     } catch (error) {
       throw error;
     }
   }
 
-  findAll() {
-    return this.productRepository.find();
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
-  }
-
-  update(id: number, updateProductInput: UpdateProductInput) {
-    return `This action updates a #${id} #${updateProductInput} product`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+  async findByUuid(uuid: string) {
+    return await this.productRepo.findOneBy({ uuid });
   }
 }

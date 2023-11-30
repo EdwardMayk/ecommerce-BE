@@ -8,5 +8,6 @@ import { Product } from 'src/products/entities/product.entity';
   imports: [TypeOrmModule.forFeature([Category, Product])],
 
   providers: [CategoryService],
+  exports: [CategoryService],
 })
 export class CategoryModule {}

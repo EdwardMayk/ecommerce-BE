@@ -14,7 +14,7 @@ import { ProvidersModule } from './providers/providers.module';
 import { RolesModule } from './roles/roles.module';
 
 import { DatabaseModule } from './database/database.module';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import config from './config';
 import * as Joi from 'joi';
 import { AuthModule } from './auth/auth.module';
@@ -22,20 +22,20 @@ import { UserActivityModule } from './user-activity/user.activity.module';
 import { FilesModule } from './files/files.module';
 import { SES } from 'aws-sdk';
 import { MercadoPagoModule } from './mercadopago/mercadopago.module';
+import { join } from 'path';
 
 @Module({
   imports: [
-    GraphQLModule.forRoot({
-      autoSchemaFile: 'schema.gql',
-      sortSchema: true,
-      debug: true,
-      playground: true,
-      installSubscriptionHandlers: true,
-      subscriptions: {
-        keepAlive: 5000,
-      },
-      context: ({ req }) => ({ req }),
+    GraphQLModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
       driver: ApolloDriver,
+      useFactory: (configService: ConfigService) => ({
+        playground: Boolean(configService.get('GRAPHQL_PLAYGROUND')),
+        autoSchemaFile: join(process.cwd(), 'src/schema.graphql'),
+        context: ({ req, res }) => ({ req, res }),
+        cors: { origin: true, credentials: true },
+      }),
     }),
     ConfigModule.forRoot({
       envFilePath: enviroments[process.env.NODE_ENV] || '.env',
@@ -47,6 +47,10 @@ import { MercadoPagoModule } from './mercadopago/mercadopago.module';
         POSTGRES_PORT: Joi.number().required(),
         POSTGRES_USER: Joi.string().required(),
         POSTGRES_PASSWORD: Joi.string().required(),
+        GRAPHQL_PLAYGROUND: Joi.number(),
+        ACCESS_TOKEN_EXPIRATION: Joi.string().required(),
+        REFRESH_TOKEN_SECRET: Joi.string().required(),
+        REFRESH_TOKEN_EXPIRATION: Joi.string().required(),
       }),
     }),
     UsersModule,

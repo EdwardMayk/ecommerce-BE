@@ -7,8 +7,8 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
-  JoinColumn,
-  OneToMany,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 
 @Entity({ name: 'category' })
@@ -17,6 +17,10 @@ export class Category {
   @PrimaryGeneratedColumn()
   @Field(() => Int)
   id: number;
+
+  @Column({ type: 'uuid', nullable: false })
+  @Field(() => String)
+  uuid: string;
 
   @Column({ type: 'varchar', length: 255 })
   @Field(() => String)
@@ -44,8 +48,8 @@ export class Category {
   })
   deletedAt?: Date;
 
-  @OneToMany(() => Product, (product) => product.category)
-  @JoinColumn({ name: 'category_id' })
-  @Field(() => Product)
+  @ManyToMany(() => Product, (product) => product.categories)
+  @JoinTable({ name: 'product_category' })
+  @Field(() => [Product])
   products: Product[];
 }

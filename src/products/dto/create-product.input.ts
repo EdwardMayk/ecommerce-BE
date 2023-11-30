@@ -24,4 +24,9 @@ export class CreateProductInput {
   @Field(() => String, { description: 'Brand of product' })
   @IsString()
   brand: string;
+
+  //uuid category
+  @Field(() => String, { description: 'Category of product', nullable: true })
+  @IsString()
+  category: string | null;
 }

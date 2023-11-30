@@ -61,6 +61,7 @@ export class AuthService {
       name: user.firstname,
       lastname: user.lastname,
       email: user.email,
+      lastLogin: user.lastLoginAt,
       session_uuid: response.uuid,
     };
 
@@ -80,6 +81,7 @@ export class AuthService {
         name: user.firstname,
         lastname: user.lastname,
         role: user.role?.value,
+        lastLogin: user.lastLoginAt,
         uuid: user.uuid,
       },
     };

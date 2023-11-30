@@ -4,6 +4,7 @@ export interface PayloadToken {
   name?: string;
   email?: string;
   lastname?: string;
+  lastLogin?: Date;
   iat?: number;
   exp?: number;
   session_uuid?: string;

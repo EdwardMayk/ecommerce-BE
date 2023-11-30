@@ -8,9 +8,10 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
-  ManyToOne,
   JoinColumn,
   OneToMany,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 
 @Entity({ name: 'products' })
@@ -73,10 +74,12 @@ export class Product {
   })
   deletedAt?: Date;
 
-  @ManyToOne(() => Category, (category) => category.products)
-  @JoinColumn({ name: 'category_id' })
-  @Field(() => Category)
-  category: Category;
+  @ManyToMany(() => Category, (category) => category.products, {
+    nullable: true,
+  })
+  @JoinTable({ name: 'product_category' })
+  @Field(() => [Category], { nullable: true })
+  categories: Category[];
 
   //orders
   @OneToMany(() => Order, (order) => order.product)

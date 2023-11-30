@@ -6,13 +6,17 @@ type Category {
   createdAt: DateTime!
   id: Int!
   name: String!
-  products: Product!
+  products: [Product!]!
   updatedAt: DateTime!
+  uuid: String!
 }
 
 input CreateProductInput {
   """Brand of product"""
   brand: String!
+
+  """Category of product"""
+  category: String!
 
   """Description of product"""
   description: String!
@@ -64,10 +68,8 @@ type Mutation {
   createUserAdmin(createUserInput: CreateUserInput!): User!
   generateResetPasswordCode(email: String!): String!
   login(args: LoginAuthDto!): SigninResponse!
-  removeProduct(id: Int!): Product!
   removeUserActivity(id: Int!): UserActivity!
   resetPassword(email: String!, newPassword: String!, resetCode: String!): Boolean!
-  updateProduct(updateProductInput: UpdateProductInput!): Product!
 }
 
 type Order {
@@ -82,7 +84,7 @@ type Order {
 
 type Product {
   brand: String
-  category: Category!
+  categories: [Category!]!
   createdAt: DateTime!
   description: String!
   id: Int!
@@ -97,7 +99,6 @@ type Product {
 
 type Query {
   hello: String!
-  product(id: Int!): Product!
   products: [Product!]!
   role(value: String!): Role!
   roles: [Role!]!
@@ -123,27 +124,6 @@ type SigninResponse {
 
 type Subscription {
   messageAdded: String!
-}
-
-input UpdateProductInput {
-  """Brand of product"""
-  brand: String
-
-  """Description of product"""
-  description: String
-  id: Int!
-
-  """Image of product"""
-  image: String
-
-  """Name of product"""
-  name: String
-
-  """Price of product"""
-  price: Float
-
-  """Stock of product"""
-  stock: Float
 }
 
 type User {
