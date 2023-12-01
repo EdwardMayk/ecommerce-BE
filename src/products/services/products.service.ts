@@ -32,6 +32,16 @@ export class ProductsService {
     }
   }
 
+  async delete(uuid: string) {
+    try {
+      const product = await this.findByUuid(uuid);
+      await this.productRepo.remove(product);
+      return true;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async findByUuid(uuid: string) {
     return await this.productRepo.findOneBy({ uuid });
   }

@@ -10,7 +10,7 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "prestart:prod": "npm run build",
-    "start:prod": "node dist/main",
+    "start:prod": "node dist/src/main",
     "build": "nest build",
     "lint": "eslint src/**/*.ts",
     "test": "jest",

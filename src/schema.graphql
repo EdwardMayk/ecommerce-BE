@@ -107,6 +107,7 @@ type Mutation {
   generateResetPasswordCode(email: String!): String!
   resetPassword(email: String!, resetCode: String!, newPassword: String!): Boolean!
   createProduct(args: CreateProductInput!): Product!
+  deleteProduct(uuid: String!): Boolean!
   login(args: LoginAuthDto!): SigninResponse!
   removeUserActivity(id: Int!): UserActivity!
 }
